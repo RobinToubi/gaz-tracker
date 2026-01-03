@@ -2,7 +2,6 @@ import { Database } from './database.js';
 import { VehicleSetup } from './components/VehicleSetup.js';
 import { RefuelForm } from './components/RefuelForm.js';
 import { Dashboard } from './components/Dashboard.js';
-import type { Vehicle, Refuel } from './types.js';
 
 class App {
     private db: Database;
@@ -30,7 +29,7 @@ class App {
         if (!vehicle) {
             this.showVehicleSetup();
         } else {
-            await this.showDashboard(vehicle);
+            await this.showDashboard();
         }
     }
 
@@ -48,7 +47,7 @@ class App {
         vehicleSetup.render();
     }
 
-    private async showDashboard(vehicle: Vehicle): Promise<void> {
+    private async showDashboard(): Promise<void> {
         const refuels = await this.db.getAllRefuels();
 
         this.mainContent.innerHTML = '';
@@ -57,7 +56,7 @@ class App {
         dashboardContainer.id = 'dashboard-container';
         this.mainContent.appendChild(dashboardContainer);
 
-        const dashboard = new Dashboard(dashboardContainer, vehicle, refuels);
+        const dashboard = new Dashboard(dashboardContainer, refuels);
         dashboard.render();
 
         const refuelFormContainer = document.createElement('div');

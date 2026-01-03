@@ -1,31 +1,19 @@
-import type { Vehicle, Refuel, Statistics } from '../types.js';
+import type { Refuel, Statistics } from '../types.js';
 
 export class Dashboard {
     private container: HTMLElement;
-    private vehicle: Vehicle;
     private refuels: Refuel[];
 
-    constructor(container: HTMLElement, vehicle: Vehicle, refuels: Refuel[]) {
+    constructor(container: HTMLElement, refuels: Refuel[]) {
         this.container = container;
-        this.vehicle = vehicle;
-        this.refuels = refuels;
+        this.refuels = Array.isArray(refuels) ? refuels : [];
     }
 
     render(): void {
         const stats = this.calculateStatistics();
 
         this.container.innerHTML = `
-            <div class="vehicle-info">
-                <div class="vehicle-model">${this.vehicle.model}</div>
-                <div class="vehicle-capacity">Réservoir: ${this.vehicle.capacity}L</div>
-            </div>
-
             ${this.refuels.length > 0 ? this.renderStats(stats) : ''}
-
-            <div class="card">
-                <h2>Historique des ravitaillements</h2>
-                ${this.refuels.length > 0 ? this.renderRefuelList() : this.renderEmptyState()}
-            </div>
         `;
     }
 

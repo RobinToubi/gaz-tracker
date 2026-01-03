@@ -94,7 +94,8 @@ export class Database {
             const request = store.getAll();
 
             request.onsuccess = () => {
-                const refuels = request.result.map((r: any) => ({
+                const results = request.result || [];
+                const refuels = results.map((r: any) => ({
                     ...r,
                     date: new Date(r.date)
                 }));
